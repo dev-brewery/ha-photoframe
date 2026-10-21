@@ -63,10 +63,10 @@ async def test_setup_creates_device_entities(
     assert state_of("binary_sensor", "network") == STATE_ON
 
 
-async def test_entity_ids_match_google_package(
+async def test_fresh_install_entity_ids_follow_the_tracker_name(
     hass: HomeAssistant, aioclient_mock: AiohttpClientMocker
 ) -> None:
-    """ha-config/packages/google_assistant.yaml relies on these IDs."""
+    """The README documents these IDs for a tracker named "PhotoFrame"."""
     mock_frame(aioclient_mock)
     await setup_entry(hass)
     assert entity_id(hass, "switch", "screen") == "switch.photoframe"

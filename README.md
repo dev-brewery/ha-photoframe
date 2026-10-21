@@ -67,6 +67,12 @@ unavailable until it's back. To switch to a different tracker for the same
 frame, or change the port, use *Reconfigure* on the integration entry. The
 tracker must report the same MAC.
 
+**Upgrading from 0.1.0**, which stored a fixed host: on first start, the entry
+looks for the device tracker that currently reports that host and has a MAC,
+switches to it, and drops the host. The device and entities are re-keyed in
+place, so their names, areas and entity IDs don't change. If no tracker reports
+that address yet, setup is retried until one does.
+
 Each frame is named after its tracker ("PhotoFrame" gives `switch.photoframe`,
 `select.photoframe_album`, …). With several frames, give the trackers distinct
 names, or put each frame in an area so Google can tell them apart by room.
