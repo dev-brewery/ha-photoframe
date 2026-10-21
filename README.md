@@ -42,16 +42,34 @@ Album options are the Immich album names. Duplicate names get a counter
 
 ## Installation
 
-The frame must be reachable from Home Assistant.
+The frame must be reachable from Home Assistant, and Home Assistant must have a
+`device_tracker` for it that reports `ip` and `mac` attributes, as router
+integrations do.
 
 - **HACS:** add this repository as a custom repository (category *Integration*),
   install *Photoframe*, restart Home Assistant.
 - **Manual:** copy `custom_components/photoframe` to `/config/custom_components/`,
   restart Home Assistant.
 
-Then go to *Settings → Devices & services → Add integration → Photoframe* and
-enter the frame's host, port (7777) and its web-interface username and password.
-If the password changes later, Home Assistant asks for it again.
+Then go to *Settings → Devices & services → Add integration → Photoframe*, pick
+the frame's device tracker, and enter the port (7777) and the frame's
+web-interface username and password. If the password changes later, Home
+Assistant asks for it again.
+
+### Addresses and identity
+
+Frames usually get their address from DHCP, so the integration never stores
+one. Every request uses the IP the device tracker reports at that moment, and
+the frame's identity is the tracker's MAC address. A new lease is picked up
+automatically, and the same frame can't be added twice. If the tracker reports
+no IP, commands fail with a clear error and the frame's entities become
+unavailable until it's back. To switch to a different tracker for the same
+frame, or change the port, use *Reconfigure* on the integration entry. The
+tracker must report the same MAC.
+
+Each frame is named after its tracker ("PhotoFrame" gives `switch.photoframe`,
+`select.photoframe_album`, …). With several frames, give the trackers distinct
+names, or put each frame in an area so Google can tell them apart by room.
 
 ## Google Assistant
 

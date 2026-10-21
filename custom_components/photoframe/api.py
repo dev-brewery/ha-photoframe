@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import asyncio
 import base64
+from collections.abc import Callable
 from typing import Any
 from urllib.parse import quote
 
@@ -43,27 +44,32 @@ def _segment(value: Any) -> str:
 
 
 class PhotoframeClient:
-    """Talks to one frame."""
+    """Talks to one frame.
+
+    Frames get their address from DHCP, so the client never stores one:
+    `host_fn` returns the frame's current address for every request and raises
+    PhotoframeConnectionError when there is none.
+    """
 
     def __init__(
         self,
         session: aiohttp.ClientSession,
-        host: str,
+        host_fn: Callable[[], str],
         port: int,
         username: str,
         password: str,
     ) -> None:
         self._session = session
-        self._base = f"http://{host}:{port}"
+        self._host_fn = host_fn
+        self._port = port
         token = base64.b64encode(f"{username}:{password}".encode()).decode()
         self._headers = {"Authorization": f"Basic {token}"}
 
     async def _request(self, method: str, path: str) -> Any:
+        url = f"http://{self._host_fn()}:{self._port}{path}"
         try:
             async with asyncio.timeout(REQUEST_TIMEOUT):
-                resp = await self._session.request(
-                    method, f"{self._base}{path}", headers=self._headers
-                )
+                resp = await self._session.request(method, url, headers=self._headers)
                 async with resp:
                     if resp.status == 401:
                         raise PhotoframeAuthError("Invalid username or password")

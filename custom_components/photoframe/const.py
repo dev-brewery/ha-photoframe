@@ -4,6 +4,7 @@ from datetime import timedelta
 
 DOMAIN = "photoframe"
 
+CONF_DEVICE_TRACKER = "device_tracker"
 DEFAULT_PORT = 7777
 SCAN_INTERVAL = timedelta(seconds=30)
 REQUEST_TIMEOUT = 15

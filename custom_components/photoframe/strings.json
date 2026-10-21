@@ -2,12 +2,19 @@
   "config": {
     "step": {
       "user": {
-        "description": "Connect to a frame running dev-brewery/photoframe. Use the same username and password as the frame's web interface.",
+        "description": "Connect to a frame running dev-brewery/photoframe. Pick the frame's device tracker (for example from your router integration): its address is looked up on every request, so DHCP changes don't matter. Use the same username and password as the frame's web interface.",
         "data": {
-          "host": "[%key:common::config_flow::data::host%]",
+          "device_tracker": "Frame's device tracker",
           "port": "[%key:common::config_flow::data::port%]",
           "username": "[%key:common::config_flow::data::username%]",
           "password": "[%key:common::config_flow::data::password%]"
+        }
+      },
+      "reconfigure": {
+        "description": "Change which device tracker or port is used to reach this frame. The tracker must report the same MAC address.",
+        "data": {
+          "device_tracker": "Frame's device tracker",
+          "port": "[%key:common::config_flow::data::port%]"
         }
       },
       "reauth_confirm": {
@@ -21,11 +28,15 @@
     "error": {
       "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
       "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]",
+      "no_ip": "This device tracker reports no IP address right now. Check that the frame is on the network.",
+      "no_mac": "This device tracker has no MAC address, so the frame can't be identified. Pick a tracker from a router or network integration.",
       "unknown": "[%key:common::config_flow::error::unknown%]"
     },
     "abort": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
-      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]"
+      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
+      "reconfigure_successful": "[%key:common::config_flow::abort::reconfigure_successful%]",
+      "wrong_device": "That device tracker belongs to a different frame (its MAC address doesn't match)."
     }
   },
   "entity": {

@@ -32,7 +32,6 @@ class PhotoframeEntity(CoordinatorEntity[PhotoframeCoordinator]):
             manufacturer="dev-brewery",
             model="photoframe",
             sw_version=commit[:7] if commit else None,
-            configuration_url=f"http://{entry.unique_id}",
         )
 
 

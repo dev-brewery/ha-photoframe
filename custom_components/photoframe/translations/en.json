@@ -2,12 +2,19 @@
   "config": {
     "step": {
       "user": {
-        "description": "Connect to a frame running dev-brewery/photoframe. Use the same username and password as the frame's web interface.",
+        "description": "Connect to a frame running dev-brewery/photoframe. Pick the frame's device tracker (for example from your router integration): its address is looked up on every request, so DHCP changes don't matter. Use the same username and password as the frame's web interface.",
         "data": {
-          "host": "Host",
+          "device_tracker": "Frame's device tracker",
           "port": "Port",
           "username": "Username",
           "password": "Password"
+        }
+      },
+      "reconfigure": {
+        "description": "Change which device tracker or port is used to reach this frame. The tracker must report the same MAC address.",
+        "data": {
+          "device_tracker": "Frame's device tracker",
+          "port": "Port"
         }
       },
       "reauth_confirm": {
@@ -21,11 +28,15 @@
     "error": {
       "cannot_connect": "Failed to connect",
       "invalid_auth": "Invalid authentication",
+      "no_ip": "This device tracker reports no IP address right now. Check that the frame is on the network.",
+      "no_mac": "This device tracker has no MAC address, so the frame can't be identified. Pick a tracker from a router or network integration.",
       "unknown": "Unexpected error"
     },
     "abort": {
       "already_configured": "Device is already configured",
-      "reauth_successful": "Re-authentication was successful"
+      "reauth_successful": "Re-authentication was successful",
+      "reconfigure_successful": "Re-configuration was successful",
+      "wrong_device": "That device tracker belongs to a different frame (its MAC address doesn't match)."
     }
   },
   "entity": {
