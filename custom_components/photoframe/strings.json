@@ -1,0 +1,91 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "description": "Connect to a frame running dev-brewery/photoframe. Use the same username and password as the frame's web interface.",
+        "data": {
+          "host": "[%key:common::config_flow::data::host%]",
+          "port": "[%key:common::config_flow::data::port%]",
+          "username": "[%key:common::config_flow::data::username%]",
+          "password": "[%key:common::config_flow::data::password%]"
+        }
+      },
+      "reauth_confirm": {
+        "description": "The frame rejected the stored credentials. Enter the current username and password.",
+        "data": {
+          "username": "[%key:common::config_flow::data::username%]",
+          "password": "[%key:common::config_flow::data::password%]"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
+      "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]",
+      "unknown": "[%key:common::config_flow::error::unknown%]"
+    },
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
+      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]"
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "network": { "name": "Network" },
+      "undervoltage": { "name": "Undervoltage since boot" },
+      "throttling": { "name": "Throttled since boot" },
+      "temperature_limit": { "name": "Temperature limit since boot" }
+    },
+    "button": {
+      "next_image": { "name": "Next photo" },
+      "previous_image": { "name": "Previous photo" },
+      "next_album": { "name": "Next album" },
+      "previous_album": { "name": "Previous album" },
+      "reboot": { "name": "Reboot" }
+    },
+    "number": {
+      "interval": { "name": "Photo interval" },
+      "display_on_hour": { "name": "Display on hour" },
+      "display_off_hour": { "name": "Display off hour" }
+    },
+    "select": {
+      "album": { "name": "Album" },
+      "image_sizing": {
+        "name": "Image sizing",
+        "state": {
+          "blur": "Blurred background",
+          "zoom": "Zoom to fill",
+          "auto": "Automatic",
+          "none": "None"
+        }
+      },
+      "powersave": {
+        "name": "Power save",
+        "state": {
+          "none": "Off",
+          "sensor": "Light sensor",
+          "schedule": "Schedule",
+          "sensor_schedule": "Light sensor and schedule"
+        }
+      },
+      "offline_behavior": {
+        "name": "When offline",
+        "state": {
+          "wait": "Wait for network",
+          "ignore": "Keep showing cached photos"
+        }
+      },
+      "rotation": {
+        "name": "Rotation (applies after reboot)",
+        "state": { "0": "0°", "90": "90°", "180": "180°", "270": "270°" }
+      }
+    },
+    "switch": {
+      "randomize_images": { "name": "Shuffle photos" },
+      "enable_cache": { "name": "Photo cache" },
+      "overscan": { "name": "Overscan (applies after reboot)" }
+    }
+  },
+  "exceptions": {
+    "unknown_album": { "message": "The frame has no album called {album}." }
+  }
+}
